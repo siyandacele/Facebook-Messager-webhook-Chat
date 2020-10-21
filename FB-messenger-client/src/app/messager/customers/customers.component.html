@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <div class="container">
+      <div class="left">
+          <ul class="customers" *ngFor="let customer of customers$ | async">
+              <li class="customer" routerLink="/customers/{{ customer._id }}">
+                  <img src="{{ customer.profilePic }}" alt="" />
+                  <span class="name">{{ customer.firstName }} {{ customer.lastName }}</span>
+                  <span class="time">{{ customer.updatedAt  | dateAgo }}</span>
+              </li>
+          </ul>
+      </div>
+      <router-outlet></router-outlet>
+  </div>
+</div>

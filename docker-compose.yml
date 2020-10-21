@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  messenger-node-api:
+    image: messenger-node-api
+    build: ./FB-messenger-api
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    volumes:
+      - ./FB-messenger-api:/usr/src/messenger-api
+  messenger-angular:
+    image: messenger-angular
+    build: ./FB-messenger-client
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4201:4201
+    volumes:
+      - ./FB-messenger-client:/usr/src/messenger-client
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+volumes:
+  data: 

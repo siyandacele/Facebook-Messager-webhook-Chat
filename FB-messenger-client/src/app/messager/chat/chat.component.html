@@ -1,0 +1,25 @@
+<div class="right">
+  <div class="top" *ngIf="customer$ | async as _customer"><span>To: <span class="name">{{ _customer.firstName}} {{ _customer.lastName}}</span></span></div>
+  <div class="chat" #messagesView>
+    <div class="conversation-start" *ngIf="customer$ | async as _customer">
+      <span>{{ _customer.createdAt  | dateAgo }} - {{ _customer.createdAt  | date: 'd MMM y  HH:mm' }}</span>
+    </div>
+    <ng-container *ngFor="let message of messages$ | async">
+
+        <div class="bubble" [ngClass]="{'you': !message.isAgent, 'me': message.isAgent }" *ngIf="message.text">
+          {{ message.text }}
+        </div>
+
+      <ng-container *ngFor="let attachment of  message.attachments">
+        <div class="bubble image" [ngClass]="{'you': !message.isAgent, 'me': message.isAgent }"  >
+          <img src="{{ attachment.payload.url }}" alt="">
+        </div>
+      </ng-container>
+      <p class="time" [ngClass]="{'response-time': message.isAgent }"> {{ message.timestamp | dateAgo }}</p>
+    </ng-container>
+
+  </div>
+  <div class="write" >
+    <input type="text" #messageInput (keyup.enter)="onReplyToCustomer()" (click)="scrollToBottom()"  (keyup)="scrollToBottom()" />
+    <a href="javascript:;" (click)="onReplyToCustomer()"   class="write-link send"></a>
+  </div>
